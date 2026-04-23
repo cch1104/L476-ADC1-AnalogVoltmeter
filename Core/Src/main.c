@@ -21,6 +21,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "lcd.h"
+#include "stdio.h"
+
+uint32_t adcResult =0;
 
 /* USER CODE END Includes */
 
