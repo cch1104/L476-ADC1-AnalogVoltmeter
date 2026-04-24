@@ -72,6 +72,7 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -94,13 +95,34 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-
+  lcd_Init();
+//  lcd_Puts("hello");
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  float mv; // store the converted data in millvolts
+  char buff[16]; //string buffer
+  HAL_ADC_Start(&hadc1);
   while (1)
   {
+	  //ADC conversion
+	  HAL_ADC_PollForConversion(&hadc1,100);
+	  adcResult=HAL_ADC_GetValue(&hadc1);
+
+	  mv=((float)adcResult)*3300.0/4095.0;
+
+	  //display value on LCD
+	  lcd_Clear();
+	  lcd_Puts("Voltmeter");
+	  lcd_Goto(0,1);
+
+	  int mv_int = (int)(mv* 100);
+	  sprintf(buff, "%d.%02d", mv_int/100, mv_int%100);
+//	  sprintf(buff, "%7.2f", mv);
+
+	  lcd_Puts(buff);
+	  HAL_Delay(2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
